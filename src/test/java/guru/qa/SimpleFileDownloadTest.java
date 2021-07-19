@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -12,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SimpleFileDownloadTest {
@@ -30,11 +30,21 @@ public class SimpleFileDownloadTest {
 
         Selenide.open("https://github.com/junit-team/junit5/blob/main/README.md");
         File downloadedFile = $("#raw-url").download();
+
+        $("#raw-url").uploadFromClasspath("table.csv");
+
         String s;
         try (InputStream is = new FileInputStream(downloadedFile)) {
-           s  = new String(is.readAllBytes(), "UTF-8");
+            s = new String(is.readAllBytes(), "UTF-8");
         }
         String s1 = FileUtils.readFileToString(downloadedFile, "UTF-8");
         Assertions.assertTrue(s1.contains("This repository is the home of the next generation of JUnit"));
+    }
+
+    @DisplayName("Upload file to input")
+    @Test
+    void uploadFileTest() {
+        Selenide.open("https://west-wind.com/wconnect/wcscripts/fileupload.wwd");
+        $("#upload").uploadFromClasspath("table.csv");
     }
 }

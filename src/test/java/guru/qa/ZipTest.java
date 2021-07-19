@@ -4,8 +4,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -13,7 +11,7 @@ import java.util.zip.ZipInputStream;
 public class ZipTest {
 
     @Test
-    void simpleZipTest() throws IOException {
+    void simpleZipTest() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String entryAsString = null;
         try (ZipInputStream stream = new ZipInputStream(classLoader.getResourceAsStream("zip/sample-zip-file.zip"))) {
